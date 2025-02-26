@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "4b688231-f0fb-42d2-a91e-7d29e383a265",
+		"name": "pruebatecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28560643"
+	},
+	"item": [
+		{
+			"name": "get clientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"nombre\": \"Jose Lema\",\r\n    \"direccion\": \"Otavalo sn y principal\",\r\n    \"telefono\": \"098254785\",\r\n    \"contraseña\": \"1234\",\r\n    \"estado\": true\r\n  },\r\n  {\r\n    \"nombre\": \"Marianela Montalvo\",\r\n    \"direccion\": \"Amazonas y NNUU\",\r\n    \"telefono\": \"097548965\",\r\n    \"contraseña\": \"5678\",\r\n    \"estado\": true\r\n  },\r\n  {\r\n    \"nombre\": \"Juan Osorio\",\r\n    \"direccion\": \"13 junio y Equinoccial\",\r\n    \"telefono\": \"098874587\",\r\n    \"contraseña\": \"1245\",\r\n    \"estado\": true\r\n  }\r\n]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/cuentas"
+			},
+			"response": []
+		},
+		{
+			"name": "post clientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Jose Lema\",\r\n    \"genero\": \"Masculino\",\r\n    \"edad\": 30,\r\n    \"identificacion\": \"123456789\",\r\n    \"direccion\": \"Otavalo sn y principal\",\r\n    \"telefono\": \"098254785\",\r\n    \"contraseña\": \"1234\",\r\n    \"estado\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/clientes"
+			},
+			"response": []
+		},
+		{
+			"name": "get clientes post",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get cuentas",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "post cuentas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numeroCuenta\": \"478758\",\r\n    \"tipoCuenta\": \"Ahorro\",\r\n    \"saldoInicial\": 2000,\r\n    \"estado\": true,\r\n    \"clienteId\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8082/cuentas"
+			},
+			"response": []
+		},
+		{
+			"name": "get cuentas post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/cuentas"
+			},
+			"response": []
+		},
+		{
+			"name": "get cuentas /",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8084/reportes?clienteId=1&fechaInicio=2025-02-01&fechaFin=2025-02-25",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"reportes"
+					],
+					"query": [
+						{
+							"key": "clienteId",
+							"value": "1"
+						},
+						{
+							"key": "fechaInicio",
+							"value": "2025-02-01"
+						},
+						{
+							"key": "fechaFin",
+							"value": "2025-02-25"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get movimientos",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "post movimientos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fecha\": \"2025-02-25\",\r\n    \"tipoMovimiento\": \"Retiro\",\r\n    \"valor\": -575,\r\n    \"saldo\": 1425,\r\n    \"cuentaId\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/movimientos"
+			},
+			"response": []
+		},
+		{
+			"name": "get movimientos post",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/movimientos"
+			},
+			"response": []
+		},
+		{
+			"name": "get reporte",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8084/reportes?clienteId=1&fechaInicio=2024-02-01&fechaFin=2025-02-27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"reportes"
+					],
+					"query": [
+						{
+							"key": "clienteId",
+							"value": "1"
+						},
+						{
+							"key": "fechaInicio",
+							"value": "2024-02-01"
+						},
+						{
+							"key": "fechaFin",
+							"value": "2025-02-27"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
