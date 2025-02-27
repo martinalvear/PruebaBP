@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import com.bp.movimiento.repository.MovimientoRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author user
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/movimientos")
 public class MovimientoRestController {

@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import com.bp.cuenta.repository.CuentaRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
  * @author user
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/cuentas")
 public class CuentaRestController {
@@ -43,16 +45,13 @@ public class CuentaRestController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Cuenta>> getCuentasByClienteId(@RequestParam(name = "clienteId", required = false) Long clienteId) {
-        if (clienteId != null) {
-            List<Cuenta> cuentas = cuentaRepository.findByClienteId(clienteId);
-            if (cuentas.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(cuentas);
+    @GetMapping("/by-cliente")
+    public ResponseEntity<List<Cuenta>> getCuentasByClienteId(@RequestParam(name = "clienteId") Long clienteId) {
+        List<Cuenta> cuentas = cuentaRepository.findByClienteId(clienteId);
+        if (cuentas.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(cuentaRepository.findAll());
+        return ResponseEntity.ok(cuentas);
     }
 
     @PutMapping("/{id}")

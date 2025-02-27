@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # 🟢 SERVIDOR DE EUREKA
+  eureka-server:
+    image: openjdk:17
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-network
+    volumes:
+      - ./ms-eureka:/app
+    working_dir: /app
+    command: ["java", "-jar", "target/eureka-0.0.1-SNAPSHOT.jar"]
+
+  # 🟢 BASE DE DATOS - CLIENTE
+  mysql-cliente:
+    image: mysql:8.0
+    container_name: mysql-cliente
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: udla1
+      MYSQL_DATABASE: clientes_db
+    ports:
+      - "3307:3306"
+    networks:
+      - microservices-network
+
+  # 🟢 MICROSERVICIO CLIENTE
+  ms-cliente:
+    build: ./ms-cliente
+    container_name: ms-cliente
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-network
+    depends_on:
+      - mysql-cliente
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cliente:3306/clientes_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: udla1
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+  # 🟢 BASE DE DATOS - CUENTA
+  mysql-cuenta:
+    image: mysql:8.0
+    container_name: mysql-cuenta
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: udla1
+      MYSQL_DATABASE: cuentas_db
+    ports:
+      - "3308:3306"
+    networks:
+      - microservices-network
+
+  # 🟢 MICROSERVICIO CUENTA
+  ms-cuenta:
+    build: ./ms-cuenta
+    container_name: ms-cuenta
+    ports:
+      - "8082:8082"
+    networks:
+      - microservices-network
+    depends_on:
+      - mysql-cuenta
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-cuenta:3306/cuentas_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: udla1
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+  # 🟢 BASE DE DATOS - MOVIMIENTO
+  mysql-movimiento:
+    image: mysql:8.0
+    container_name: mysql-movimiento
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: udla1
+      MYSQL_DATABASE: movimientos_db
+    ports:
+      - "3309:3306"
+    networks:
+      - microservices-network
+
+  # 🟢 MICROSERVICIO MOVIMIENTO
+  ms-movimiento:
+    build: ./ms-movimiento
+    container_name: ms-movimiento
+    ports:
+      - "8083:8083"
+    networks:
+      - microservices-network
+    depends_on:
+      - mysql-movimiento
+      - eureka-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-movimiento:3306/movimientos_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: udla1
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+  # 🟢 MICROSERVICIO REPORTE
+  ms-reporte:
+    build: ./ms-reporte
+    container_name: ms-reporte
+    ports:
+      - "8084:8084"
+    networks:
+      - microservices-network
+    depends_on:
+      - eureka-server
+      - ms-cliente
+      - ms-cuenta
+      - ms-movimiento
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+
+networks:
+  microservices-network:
+    driver: bridge
